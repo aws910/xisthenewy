@@ -1,4 +1,6 @@
 <?php
+
+//Interface to define planned implementation of class
 interface ipage {
   public function init();
   public function fetchPage($url);
@@ -7,8 +9,8 @@ interface ipage {
   public function getHTML();
 }
 
+//Class implementation
 class renderedPage implements ipage{
-  private $q = 2;
   private $debug_text = '';
 
   public function init(){
@@ -38,7 +40,10 @@ class renderedPage implements ipage{
 
 
 $x = new renderedPage(5);
-	
+
+// old code, being refactored from procedural to OOP
+
+/*	
 $time_start = microtime(true);
 
 error_reporting(E_ALL);
@@ -59,9 +64,9 @@ $default_page = 'http://news.google.com';
 $my_base_url = 'http://aws910.com/turntable.php';
 $debug_text = '';
 
-/* The master list of find and replace pairs.
-   Starting with an associative array for now, for easier encoding.  
-*/
+// The master list of find and replace pairs.
+// Starting with an associative array for now, for easier encoding.  
+
 $replace_pattern=array(
 'magazine'=>'rutabega',
 );
@@ -97,23 +102,23 @@ if (function_exists('mb_convert_encoding')){
 } else {
   $mb_source = $raw_source;
 }
-/* *******
-Step 1: "threading" the links back through this server
-In this section, we get all links on the page and rewrite them
- in such a way that the data goes through the server. 
-   *******/
+
+//Step 1: "threading" the links back through this server
+//In this section, we get all links on the page and rewrite them
+// in such a way that the data goes through the server. 
+
 $regexp = "<a\s[^>]*href=(\"??)([^\" >]*?)\\1[^>]*>(.*)<\/a>";
 $threaded_source = preg_replace_callback(
   "/$regexp/siU",
   function($match) use($url_parts, $dbg, $my_base_url){
-    /* Anonymous regex callback function
-         Every time the regex engine hits a match, this function is called
-         Parameters: $match - variable containing all regex match parts, in an array
-         Returns: New href to substitute in place of the link
-                 (all <a> attributes other than "href" are discarded)
-         The purpose of this function is to rewrite all links on a page 
-          so that they are fed back through this script. 
-    */
+    // Anonymous regex callback function
+    //   Every time the regex engine hits a match, this function is called
+    //   Parameters: $match - variable containing all regex match parts, in an array
+    //   Returns: New href to substitute in place of the link
+    //           (all <a> attributes other than "href" are discarded)
+    //   The purpose of this function is to rewrite all links on a page 
+    //    so that they are fed back through this script. 
+    
 
     //make sure the link is fully qualified...
     if(substr($match[2],0,4) != 'http'){
@@ -140,13 +145,13 @@ $threaded_source = preg_replace_callback(
   $mb_source
 );
 
-/* Giving up on domdocument for now.  Too complicated, too slow.
+// Giving up on domdocument for now.  Too complicated, too slow.
 // DOMDocument complains worse than a vegan in a steakhouse!
-error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE); 
-$threaded_doc = new DOMDocument();
-$threaded_doc->loadHTML($threaded_source);
-print $threaded_doc->saveHTML();
-*/
+//error_reporting(E_ALL & ~E_WARNING & ~E_NOTICE); 
+//$threaded_doc = new DOMDocument();
+//$threaded_doc->loadHTML($threaded_source);
+//print $threaded_doc->saveHTML();
+
 
 // A plain old preg_replace will have to do for now, but it works
 $final_source = preg_replace($search, $replace, $threaded_source);
@@ -163,5 +168,5 @@ if ($dbg == 1){
   print 'url replacement logic:<br>';
   print $debug_text;
 }
-
+*/
 ?>
