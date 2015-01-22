@@ -12,10 +12,7 @@ interface ipage {
 //Class implementation
 class renderedPage implements ipage{
   private $debug_text = '';
-
-  public function init(){
-    print 'initializing<br>';
-  }  
+  private $page_html = '';
 
   public function fetchPage($url){
     print 'fetching ' . $url . '<br>';
@@ -33,15 +30,12 @@ class renderedPage implements ipage{
     print 'here it comes<br>';
   }
 
-  public function renderedPage($url){
-    print '!!' . $url;
+  public function renderedPage($url='http://news.google.com', $dbg=0){
+    $debug_text .= 'Initial url: ' . $url;
   }
 }
 
-
-$x = new renderedPage(5);
-
-// old code, being refactored from procedural to OOP
+// Everything below is old code, being refactored from procedural to OOP
 
 /*	
 $time_start = microtime(true);
